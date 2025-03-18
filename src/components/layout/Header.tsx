@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link, NavLink, useLocation } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
-import { ThemeToggle } from '../ui/ThemeToggle';
+import ThemeToggle from '../ui/ThemeToggle';
 import { useCart } from '../../context/CartContext';
 import { cn } from '../../utils/cn';
 
@@ -68,7 +68,7 @@ const Header: React.FC<HeaderProps> = ({ darkMode, toggleDarkMode }) => {
         <div className="flex items-center justify-between">
           {/* Logo */}
           <Link to="/" className="text-2xl font-heading font-medium tracking-wider text-luxury-charcoal dark:text-luxury-ivory">
-            LUXE ATTIRE
+            Dell.Luxe
           </Link>
           
           {/* Desktop Navigation */}

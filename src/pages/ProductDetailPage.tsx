@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { Button } from '../components/ui/Button';
+import Button from '../components/ui/Button';
 import { ProductImageCarousel } from '../components/products/ProductImageCarousel';
 import { ProductCard } from '../components/products/ProductCard';
 import { useCart } from '../context/CartContext';
 import { getProductById, getFeaturedProducts } from '../data/products';
 
-export const ProductDetailPage: React.FC = () => {
+const ProductDetailPage: React.FC = () => {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
   const { addToCart } = useCart();
@@ -252,4 +252,6 @@ export const ProductDetailPage: React.FC = () => {
       </div>
     </div>
   );
-}; 
+};
+
+export default ProductDetailPage; 

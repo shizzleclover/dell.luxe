@@ -1,17 +1,25 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { Button } from '../ui/Button';
+import Button from '../ui/Button';
 import { getPlaceholderImage } from '../../data/images';
 
 export const Hero: React.FC = () => {
+  // Log the hero image to debug
+  const heroImageUrl = getPlaceholderImage('hero-1', '?w=1920&h=1080&fit=crop&q=90');
+  console.log('Hero Image URL:', heroImageUrl);
+  
   return (
     <section className="relative h-screen flex items-center overflow-hidden">
       {/* Background image with overlay */}
       <div className="absolute inset-0 z-0">
         <img
-          src={getPlaceholderImage('hero-1', '?w=1920&h=1080&fit=crop&q=90')}
+          src={heroImageUrl}
           alt="Luxury fashion"
           className="w-full h-full object-cover"
+          onError={(e) => {
+            console.error('Failed to load hero image');
+            e.currentTarget.src = 'https://images.unsplash.com/photo-1469334031218-e382a71b716b?w=1920&h=1080&fit=crop&q=90';
+          }}
         />
         <div className="absolute inset-0 bg-gradient-to-r from-black/80 to-black/10 dark:from-black/90 dark:to-black/50" />
       </div>

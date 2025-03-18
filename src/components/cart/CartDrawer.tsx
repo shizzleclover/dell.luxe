@@ -1,9 +1,9 @@
 import React from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useCart } from '../../context/CartContext';
-import { Button } from '../ui/Button';
+import Button from '../ui/Button';
 
-export const CartDrawer: React.FC = () => {
+const CartDrawer: React.FC = () => {
   const { 
     cartItems, 
     removeFromCart, 
@@ -153,4 +153,6 @@ export const CartDrawer: React.FC = () => {
       )}
     </AnimatePresence>
   );
-}; 
+};
+
+export default CartDrawer; 

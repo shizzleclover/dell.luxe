@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
-import { Button } from '../components/ui/Button';
+import Button from '../components/ui/Button';
 import { orders, customers, revenueData, inventoryStatus, topCategories } from '../data/admin';
 import { products } from '../data/products';
 
-export const AdminDashboardPage: React.FC = () => {
+const AdminDashboardPage: React.FC = () => {
   // Demo admin sections
   const [activeTab, setActiveTab] = useState<'dashboard' | 'products' | 'orders' | 'customers'>('dashboard');
   
@@ -384,4 +384,6 @@ export const AdminDashboardPage: React.FC = () => {
       </div>
     </div>
   );
-}; 
+};
+
+export default AdminDashboardPage; 

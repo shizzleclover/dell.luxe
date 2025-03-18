@@ -71,7 +71,12 @@ export const placeholderImages = {
 };
 
 // Function to get placeholder image URL with parameters for quality/size
-export const getPlaceholderImage = (key: string, params = '?w=600&q=80&auto=format') => {
+export const getPlaceholderImage = (key: string, params = '?w=600&q=80&auto=format&fit=crop') => {
   const baseUrl = placeholderImages[key as keyof typeof placeholderImages];
-  return baseUrl ? `${baseUrl}${params}` : '';
+  if (!baseUrl) {
+    console.warn(`Image key "${key}" not found in placeholderImages`);
+    // Return a default image when key is not found
+    return 'https://images.unsplash.com/photo-1590664863762-bbf2banefea8?w=600&q=80&auto=format&fit=crop';
+  }
+  return `${baseUrl}${params}`;
 }; 

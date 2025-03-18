@@ -1,11 +1,13 @@
 import React, { useRef } from 'react';
 import { motion, useInView } from 'framer-motion';
 import { ProductCard } from '../products/ProductCard';
-import { Button } from '../ui/Button';
+import Button from '../ui/Button';
 import { getFeaturedProducts } from '../../data/products';
 
 export const FeaturedProducts: React.FC = () => {
   const featuredProducts = getFeaturedProducts();
+  console.log('Featured Products:', featuredProducts);
+  
   const sectionRef = useRef<HTMLDivElement>(null);
   const isInView = useInView(sectionRef, { once: true, amount: 0.2 });
   
@@ -46,13 +48,19 @@ export const FeaturedProducts: React.FC = () => {
           animate={isInView ? "visible" : "hidden"}
           className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
         >
-          {featuredProducts.slice(0, 3).map((product, index) => (
-            <ProductCard 
-              key={product.id} 
-              product={product}
-              priority={index === 0}
-            />
-          ))}
+          {featuredProducts && featuredProducts.length > 0 ? (
+            featuredProducts.slice(0, 3).map((product, index) => (
+              <ProductCard 
+                key={product.id} 
+                product={product}
+                priority={index === 0}
+              />
+            ))
+          ) : (
+            <div className="col-span-3 text-center py-8 text-gray-500 dark:text-gray-400">
+              No featured products available at the moment.
+            </div>
+          )}
         </motion.div>
         
         {/* Call to action */}

@@ -1,10 +1,13 @@
 import React, { useEffect, useState } from 'react';
-import { Outlet } from 'react-router-dom';
 import Header from './Header';
 import Footer from './Footer';
-import { CartDrawer } from '../cart/CartDrawer';
+import CartDrawer from '../cart/CartDrawer';
 
-const Layout: React.FC = () => {
+interface LayoutProps {
+  children: React.ReactNode;
+}
+
+const Layout: React.FC<LayoutProps> = ({ children }) => {
   const [darkMode, setDarkMode] = useState(
     localStorage.getItem('theme') === 'dark' || 
     (!localStorage.getItem('theme') && window.matchMedia('(prefers-color-scheme: dark)').matches)
@@ -27,8 +30,8 @@ const Layout: React.FC = () => {
   return (
     <div className="flex flex-col min-h-screen bg-luxury-ivory dark:bg-[#010400] transition-colors duration-300">
       <Header darkMode={darkMode} toggleDarkMode={toggleDarkMode} />
-      <main className="flex-grow">
-        <Outlet />
+      <main className="flex-grow" style={{ paddingTop: "60px" }}>
+        {children}
       </main>
       <Footer />
       <CartDrawer />

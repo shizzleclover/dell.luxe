@@ -7,7 +7,7 @@ type ThemeToggleProps = {
   className?: string;
 };
 
-export const ThemeToggle: React.FC<ThemeToggleProps> = ({ className }) => {
+const ThemeToggle: React.FC<ThemeToggleProps> = ({ className }) => {
   const { theme, toggleTheme } = useTheme();
   
   return (
@@ -113,4 +113,6 @@ export const ThemeToggle: React.FC<ThemeToggleProps> = ({ className }) => {
       </motion.div>
     </motion.button>
   );
-}; 
+};
+
+export default ThemeToggle; 

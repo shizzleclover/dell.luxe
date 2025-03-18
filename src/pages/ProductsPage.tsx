@@ -17,19 +17,25 @@ const sellers = [
   "Style Maven"
 ];
 
-export const ProductsPage: React.FC = () => {
+const ProductsPage: React.FC = () => {
   const [searchParams] = useSearchParams();
   const category = searchParams.get('category');
   const featured = searchParams.get('featured') === 'true';
   const newItems = searchParams.get('new') === 'true';
   
   // Get initial products based on URL parameters
-  const products = getProducts().filter(product => {
-    if (category && product.category !== category) return false;
-    if (featured && !product.featured) return false;
-    if (newItems && !product.new) return false;
-    return true;
-  });
+  let products = [];
+  try {
+    products = getProducts().filter(product => {
+      if (category && product.category !== category) return false;
+      if (featured && !product.featured) return false;
+      if (newItems && !product.new) return false;
+      return true;
+    });
+    console.log('Initial products:', products);
+  } catch (error) {
+    console.error('Error loading products:', error);
+  }
   
   const [filteredProducts, setFilteredProducts] = useState(products);
   const [selectedCategories, setSelectedCategories] = useState<string[]>(category ? [category] : []);
@@ -175,4 +181,6 @@ export const ProductsPage: React.FC = () => {
       </div>
     </div>
   );
-}; 
+};
+
+export default ProductsPage; 

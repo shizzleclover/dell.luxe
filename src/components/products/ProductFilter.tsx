@@ -20,6 +20,7 @@ interface ProductFilterProps {
   priceRange: [number, number];
   availabilityFilter: string[];
   sortOrder: string;
+  className?: string;
   onFilterChange: (
     categories: string[],
     priceRange: [number, number],
@@ -33,6 +34,7 @@ export const ProductFilter: React.FC<ProductFilterProps> = ({
   priceRange: initialPriceRange,
   availabilityFilter: initialAvailability,
   sortOrder: initialSortOrder,
+  className = "",
   onFilterChange
 }) => {
   const [selectedCategories, setSelectedCategories] = useState<string[]>(initialCategories);
@@ -107,7 +109,7 @@ export const ProductFilter: React.FC<ProductFilterProps> = ({
   };
 
   return (
-    <div className={cn('bg-white dark:bg-luxury-charcoal/40 rounded-lg shadow-soft', className)}>
+    <div className={cn('bg-white dark:bg-luxury-charcoal/40 rounded-lg shadow-soft', className || '')}>
       {/* Mobile filter toggle */}
       <button 
         className="md:hidden w-full flex items-center justify-between p-4 text-luxury-charcoal dark:text-luxury-ivory font-medium"
@@ -118,8 +120,11 @@ export const ProductFilter: React.FC<ProductFilterProps> = ({
           width="14" 
           height="14" 
           viewBox="0 0 24 24" 
-          fill="none" 
-          xmlns="http://www.w3.org/2000/svg"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="2"
+          strokeLinecap="round"
+          strokeLinejoin="round"
           className={cn('transition-transform', isExpanded ? 'rotate-180' : '')}
         >
           <path d="M6 9L12 15L18 9" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>

@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
 import { useCart } from '../context/CartContext';
-import { Button } from '../components/ui/Button';
+import Button from '../components/ui/Button';
 
 type CheckoutFormData = {
   firstName: string;
@@ -19,7 +19,7 @@ type CheckoutFormData = {
   cvv: string;
 };
 
-export const CheckoutPage: React.FC = () => {
+const CheckoutPage: React.FC = () => {
   const navigate = useNavigate();
   const { cartItems, cartTotal, clearCart } = useCart();
   const [formData, setFormData] = useState<CheckoutFormData>({
@@ -424,4 +424,6 @@ export const CheckoutPage: React.FC = () => {
       </div>
     </div>
   );
-}; 
+};
+
+export default CheckoutPage; 

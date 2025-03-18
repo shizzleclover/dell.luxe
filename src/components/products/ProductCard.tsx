@@ -4,7 +4,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { Product } from '../../types';
 import { getPlaceholderImage } from '../../data/images';
 import { useCart } from '../../context/CartContext';
-import { Button } from '../ui/Button';
+import Button from '../ui/Button';
 import { cn } from '../../utils/cn';
 
 type ProductCardProps = {
@@ -25,6 +25,9 @@ export const ProductCard: React.FC<ProductCardProps> = ({
   const [selectedImageIndex, setSelectedImageIndex] = useState(0);
   const { addToCart } = useCart();
   
+  // Debug product data
+  console.log('Product Card Rendering:', product.id, product);
+  
   const { 
     id, 
     name, 
@@ -39,7 +42,8 @@ export const ProductCard: React.FC<ProductCardProps> = ({
   } = product;
 
   // Extract first image name (without path and extension)
-  const firstImageKey = images[0].split('/').pop()?.split('.')[0] || '';
+  const firstImageKey = images[0]?.split('/').pop()?.split('.')[0] || '';
+  console.log('Image key:', firstImageKey);
   
   // Format price
   const formatPrice = (amount: number) => {
@@ -56,17 +60,11 @@ export const ProductCard: React.FC<ProductCardProps> = ({
     visible: { 
       opacity: 1, 
       y: 0,
-      transition: { 
-        duration: 0.4,
-        ease: [0.25, 0.1, 0.25, 1.0]
-      }
+      transition: { duration: 0.6 }
     },
     hover: {
-      y: -8,
-      transition: { 
-        duration: 0.3,
-        ease: [0.25, 0.1, 0.25, 1.0]
-      }
+      y: -5,
+      transition: { duration: 0.3 }
     }
   };
   
@@ -91,8 +89,10 @@ export const ProductCard: React.FC<ProductCardProps> = ({
   };
   
   const handleAddToCart = () => {
-    addToCart(product, quantity);
-    setIsExpanded(false);
+    if (status !== 'out-of-stock' && status !== 'coming-soon') {
+      addToCart(product, quantity);
+      setIsExpanded(false);
+    }
   };
   
   const incrementQuantity = () => {
@@ -103,103 +103,148 @@ export const ProductCard: React.FC<ProductCardProps> = ({
     if (quantity > 1) setQuantity(q => q - 1);
   };
 
+  // Fallback image if product images are not available
+  const productImage = images.length > 0 ? images[0] : getPlaceholderImage(`category-${product.category}`);
+  
+  const statusBadges = () => {
+    return (
+      <div className="absolute top-3 left-3 flex flex-col gap-2">
+        {isNew && (
+          <span className="bg-luxury-gold text-white text-xs px-2 py-1 rounded">
+            NEW
+          </span>
+        )}
+        {featured && (
+          <span className="bg-luxury-black text-white text-xs px-2 py-1 rounded">
+            FEATURED
+          </span>
+        )}
+        {status === 'low-stock' && (
+          <span className="bg-amber-600 text-white text-xs px-2 py-1 rounded">
+            LOW STOCK
+          </span>
+        )}
+        {status === 'out-of-stock' && (
+          <span className="bg-luxury-charcoal text-white text-xs px-2 py-1 rounded">
+            SOLD OUT
+          </span>
+        )}
+      </div>
+    );
+  };
+
   return (
     <>
       <motion.div
-        className={cn('card-luxe group border border-gray-200 dark:border-gray-800 rounded-lg overflow-hidden shadow-sm hover:shadow-md transition-shadow', className)}
+        className={cn(
+          "card-luxe flex flex-col h-full",
+          className
+        )}
         variants={cardVariants}
         initial="hidden"
-        animate="visible"
-        whileHover={!isExpanded ? "hover" : undefined}
+        whileInView="visible"
+        whileHover="hover"
+        viewport={{ once: true }}
       >
-        <Link to={`/products/${id}`}>
-          <div className="relative zoom-effect aspect-[3/4] overflow-hidden">
+        {/* Card image */}
+        <Link to={`/products/${id}`} className="block relative aspect-square overflow-hidden bg-gray-100 dark:bg-gray-800 mb-4 group">
+          {images && images.length > 0 ? (
             <img
               src={getPlaceholderImage(firstImageKey)}
               alt={name}
-              loading={priority ? 'eager' : 'lazy'}
-              className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+              width={600}
+              height={600}
+              className={cn(
+                "w-full h-full object-cover transition-transform duration-700 ease-in-out",
+                "group-hover:scale-105"
+              )}
+              loading={priority ? "eager" : "lazy"}
+              onError={(e) => {
+                console.error(`Failed to load image for ${id}:`, firstImageKey);
+                // Set fallback image on error
+                e.currentTarget.src = 'https://images.unsplash.com/photo-1590664863762-bbf2banefea8?w=600&q=80&auto=format&fit=crop';
+              }}
             />
-            {/* Status badges */}
-            <div className="absolute top-3 left-3 flex flex-col gap-2">
-              {isNew && (
-                <span className="bg-luxury-gold text-white text-xs px-3 py-1 rounded">
-                  NEW
-                </span>
-              )}
-              {featured && (
-                <span className="bg-luxury-black text-white text-xs px-3 py-1 rounded">
-                  FEATURED
-                </span>
-              )}
-              {status === 'low-stock' && (
-                <span className="bg-amber-600 text-white text-xs px-3 py-1 rounded">
-                  LOW STOCK
-                </span>
-              )}
-              {status === 'out-of-stock' && (
-                <span className="bg-luxury-charcoal text-white text-xs px-3 py-1 rounded">
-                  SOLD OUT
-                </span>
-              )}
-              {status === 'coming-soon' && (
-                <span className="bg-luxury-plum text-white text-xs px-3 py-1 rounded">
-                  COMING SOON
+          ) : (
+            <div className="w-full h-full flex items-center justify-center bg-gray-200 dark:bg-gray-700">
+              <span className="text-gray-500 dark:text-gray-400">No image available</span>
+            </div>
+          )}
+          {statusBadges()}
+        </Link>
+        
+        {/* Product Info */}
+        <div className="p-4 flex-grow flex flex-col">
+          <div className="mb-auto">
+            <div className="text-sm text-gray-500 dark:text-gray-400 mb-1">
+              {seller}
+            </div>
+            <Link to={`/products/${id}`} className="block mb-2">
+              <h3 className="font-heading font-medium text-lg text-luxury-charcoal dark:text-luxury-ivory hover:text-luxury-gold dark:hover:text-luxury-gold transition-colors">
+                {name}
+              </h3>
+            </Link>
+            <div className="mb-4">
+              {discountedPrice ? (
+                <div className="flex items-center gap-2">
+                  <span className="text-luxury-gold font-medium">
+                    {formatPrice(discountedPrice)}
+                  </span>
+                  <span className="text-gray-500 line-through text-sm">
+                    {formatPrice(price)}
+                  </span>
+                </div>
+              ) : (
+                <span className="text-luxury-gold font-medium">
+                  {formatPrice(price)}
                 </span>
               )}
             </div>
           </div>
-        </Link>
-        
-        <div className="p-4 sm:p-5">
-          <Link to={`/products/${id}`}>
-            <h3 className="font-heading text-lg sm:text-xl font-medium mb-1 dark:text-luxury-ivory">
-              {name}
-            </h3>
-          </Link>
           
-          <p className="text-xs text-gray-500 dark:text-gray-400 mb-2">
-            Sold by: {seller}
-          </p>
-          
-          <p className="text-sm text-gray-600 dark:text-gray-300 mb-2 line-clamp-2">
-            {description}
-          </p>
-          
-          <div className="flex items-baseline gap-2 mt-3">
-            {discountedPrice ? (
-              <>
-                <span className="text-lg font-medium text-luxury-gold">
-                  {formatPrice(discountedPrice)}
-                </span>
-                <span className="text-sm line-through text-gray-500">
-                  {formatPrice(price)}
-                </span>
-              </>
+          {/* Add to Cart */}
+          <div className="mt-2">
+            {status !== 'out-of-stock' && status !== 'coming-soon' ? (
+              <div className="space-y-2">
+                <div className="flex items-center">
+                  <button 
+                    className="w-8 h-8 flex items-center justify-center border border-gray-300 dark:border-gray-700 rounded-l"
+                    onClick={decrementQuantity}
+                    disabled={quantity <= 1}
+                  >
+                    -
+                  </button>
+                  <input 
+                    type="number" 
+                    value={quantity} 
+                    readOnly
+                    className="w-12 h-8 text-center border-y border-gray-300 dark:border-gray-700 bg-transparent text-luxury-charcoal dark:text-luxury-ivory"
+                  />
+                  <button 
+                    className="w-8 h-8 flex items-center justify-center border border-gray-300 dark:border-gray-700 rounded-r"
+                    onClick={incrementQuantity}
+                    disabled={quantity >= 10}
+                  >
+                    +
+                  </button>
+                  <Button 
+                    onClick={handleAddToCart}
+                    size="sm"
+                    className="ml-2 flex-grow"
+                  >
+                    Add to Cart
+                  </Button>
+                </div>
+              </div>
             ) : (
-              <span className="text-lg font-medium text-luxury-gold">
-                {formatPrice(price)}
-              </span>
+              <Button 
+                disabled
+                variant="secondary"
+                fullWidth
+              >
+                {status === 'out-of-stock' ? 'Sold Out' : 'Coming Soon'}
+              </Button>
             )}
-          </div>
-          
-          <div className="mt-4 flex justify-between items-center">
-            <Link 
-              to={`/products/${id}`}
-              className="text-sm text-luxury-gold hover:underline"
-            >
-              View Details
-            </Link>
-            <button 
-              onClick={(e) => {
-                e.preventDefault();
-                e.stopPropagation();
-                setIsExpanded(true);
-              }}
-              className="text-sm px-3 py-1 bg-luxury-gold text-white rounded hover:bg-luxury-gold/90 transition-colors"
-            >
-              Quick View
-            </button>
           </div>
         </div>
       </motion.div>
@@ -242,13 +287,20 @@ export const ProductCard: React.FC<ProductCardProps> = ({
                 <div className="p-6 flex flex-col">
                   <div className="aspect-square overflow-hidden bg-gray-100 dark:bg-gray-800 rounded-lg mb-4">
                     <img
-                      src={getPlaceholderImage(images[selectedImageIndex].split('/').pop()?.split('.')[0] || '')}
+                      src={images && images[selectedImageIndex] 
+                        ? getPlaceholderImage(images[selectedImageIndex].split('/').pop()?.split('.')[0] || '')
+                        : 'https://images.unsplash.com/photo-1590664863762-bbf2banefea8?w=600&q=80&auto=format&fit=crop'
+                      }
                       alt={name}
                       className="w-full h-full object-cover"
+                      onError={(e) => {
+                        console.error(`Failed to load expanded image:`, images[selectedImageIndex]);
+                        e.currentTarget.src = 'https://images.unsplash.com/photo-1590664863762-bbf2banefea8?w=600&q=80&auto=format&fit=crop';
+                      }}
                     />
                   </div>
                   <div className="grid grid-cols-4 gap-2">
-                    {images.slice(0, 4).map((image, index) => (
+                    {images && images.slice(0, 4).map((image, index) => (
                       <button
                         key={index}
                         className={`aspect-square bg-gray-100 dark:bg-gray-800 rounded ${
@@ -260,6 +312,9 @@ export const ProductCard: React.FC<ProductCardProps> = ({
                           src={getPlaceholderImage(image.split('/').pop()?.split('.')[0] || '')}
                           alt={`${name} ${index + 1}`}
                           className="w-full h-full object-cover"
+                          onError={(e) => {
+                            e.currentTarget.src = 'https://images.unsplash.com/photo-1590664863762-bbf2banefea8?w=600&q=80&auto=format&fit=crop';
+                          }}
                         />
                       </button>
                     ))}

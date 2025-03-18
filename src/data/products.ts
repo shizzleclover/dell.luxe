@@ -1,17 +1,23 @@
 import { Product } from '../types';
+import { getPlaceholderImage } from './images';
+
+// Helper function to generate images for products based on ID
+const getProductImages = (productId: string, count: number = 3) => {
+  const images = [];
+  for (let i = 1; i <= count; i++) {
+    images.push(getPlaceholderImage(`${productId}-${i}`));
+  }
+  return images;
+};
 
 export const products: Product[] = [
   {
-    id: 'p001',
+    id: 'obsidian-gown',
     name: 'The Obsidian Gown',
     description: 'A stunning floor-length black evening dress with delicate beading and a dramatic silhouette. Perfect for galas and special occasions.',
     price: 2995,
     currency: 'USD',
-    images: [
-      '/images/products/obsidian-gown-1.jpg',
-      '/images/products/obsidian-gown-2.jpg',
-      '/images/products/obsidian-gown-3.jpg'
-    ],
+    images: getProductImages('obsidian-gown'),
     category: 'dresses',
     tags: ['evening', 'formal', 'gala', 'beaded'],
     status: 'in-stock',
@@ -29,16 +35,12 @@ export const products: Product[] = [
     dateAdded: '2023-09-15'
   },
   {
-    id: 'p002',
+    id: 'riviera-suit',
     name: 'The Riviera Silk Suit',
     description: 'An impeccably tailored cream silk suit perfect for summer soirees and yacht events. Exudes effortless luxury and sophistication.',
     price: 3250,
     currency: 'USD',
-    images: [
-      '/images/products/riviera-suit-1.jpg',
-      '/images/products/riviera-suit-2.jpg',
-      '/images/products/riviera-suit-3.jpg'
-    ],
+    images: getProductImages('riviera-suit'),
     category: 'suits',
     tags: ['summer', 'tailored', 'silk', 'cream'],
     status: 'in-stock',
@@ -56,16 +58,12 @@ export const products: Product[] = [
     dateAdded: '2023-10-28'
   },
   {
-    id: 'p003',
+    id: 'marquise-earrings',
     name: 'The Marquise Diamond Earrings',
     description: 'Exquisite marquise-cut diamond drop earrings set in 18k white gold. A timeless statement piece that captures the light with every movement.',
     price: 9800,
     currency: 'USD',
-    images: [
-      '/images/products/marquise-earrings-1.jpg',
-      '/images/products/marquise-earrings-2.jpg',
-      '/images/products/marquise-earrings-3.jpg'
-    ],
+    images: getProductImages('marquise-earrings'),
     category: 'jewelry',
     tags: ['diamond', 'evening', 'heirloom', 'statement'],
     status: 'low-stock',
@@ -83,17 +81,13 @@ export const products: Product[] = [
     dateAdded: '2023-07-22'
   },
   {
-    id: 'p004',
+    id: 'cashmere-coat',
     name: 'The Cashmere Overcoat',
     description: 'A sumptuous double-faced cashmere overcoat in camel. The epitome of understated luxury and warmth.',
     price: 4650,
     discountedPrice: 3950,
     currency: 'USD',
-    images: [
-      '/images/products/cashmere-coat-1.jpg',
-      '/images/products/cashmere-coat-2.jpg',
-      '/images/products/cashmere-coat-3.jpg'
-    ],
+    images: getProductImages('cashmere-coat'),
     category: 'coats',
     tags: ['winter', 'cashmere', 'camel', 'oversized'],
     status: 'in-stock',
@@ -111,16 +105,12 @@ export const products: Product[] = [
     dateAdded: '2023-08-12'
   },
   {
-    id: 'p005',
+    id: 'velvet-clutch',
     name: 'The Velvet Evening Clutch',
     description: 'A sophisticated burgundy velvet clutch with antique gold frame. Adds a touch of vintage glamour to any evening ensemble.',
     price: 1450,
     currency: 'USD',
-    images: [
-      '/images/products/velvet-clutch-1.jpg',
-      '/images/products/velvet-clutch-2.jpg',
-      '/images/products/velvet-clutch-3.jpg'
-    ],
+    images: getProductImages('velvet-clutch'),
     category: 'accessories',
     tags: ['evening', 'velvet', 'vintage', 'burgundy'],
     status: 'in-stock',
@@ -138,16 +128,12 @@ export const products: Product[] = [
     dateAdded: '2023-11-05'
   },
   {
-    id: 'p006',
+    id: 'leather-boots',
     name: 'The Parisian Leather Boots',
     description: 'Meticulously crafted black leather boots with a subtle block heel. Combines Parisian elegance with everyday comfort.',
     price: 1895,
     currency: 'USD',
-    images: [
-      '/images/products/leather-boots-1.jpg',
-      '/images/products/leather-boots-2.jpg',
-      '/images/products/leather-boots-3.jpg'
-    ],
+    images: getProductImages('leather-boots'),
     category: 'footwear',
     tags: ['leather', 'boots', 'black', 'block-heel'],
     status: 'out-of-stock',
@@ -165,16 +151,12 @@ export const products: Product[] = [
     dateAdded: '2023-06-30'
   },
   {
-    id: 'p007',
+    id: 'column-dress',
     name: 'The Alabaster Column Dress',
     description: 'A sculptural white column dress with asymmetrical neckline. Architectural minimalism meets ethereal elegance.',
     price: 2750,
     currency: 'USD',
-    images: [
-      '/images/products/column-dress-1.jpg',
-      '/images/products/column-dress-2.jpg',
-      '/images/products/column-dress-3.jpg'
-    ],
+    images: getProductImages('column-dress'),
     category: 'dresses',
     tags: ['minimalist', 'evening', 'white', 'architectural'],
     status: 'in-stock',
@@ -192,16 +174,12 @@ export const products: Product[] = [
     dateAdded: '2023-11-20'
   },
   {
-    id: 'p008',
+    id: 'silk-scarf',
     name: 'The Emerald Silk Scarf',
     description: 'A luxurious oversized silk scarf in rich emerald with hand-rolled edges. Versatile enough to be worn multiple ways.',
     price: 495,
     currency: 'USD',
-    images: [
-      '/images/products/silk-scarf-1.jpg',
-      '/images/products/silk-scarf-2.jpg',
-      '/images/products/silk-scarf-3.jpg'
-    ],
+    images: getProductImages('silk-scarf'),
     category: 'accessories',
     tags: ['silk', 'emerald', 'scarf', 'hand-rolled'],
     status: 'in-stock',
@@ -219,16 +197,12 @@ export const products: Product[] = [
     dateAdded: '2023-09-28'
   },
   {
-    id: 'p009',
+    id: 'tuxedo-dress',
     name: 'The Tuxedo Evening Dress',
     description: 'A sophisticated black dress with tuxedo-inspired detailing. Blends masculine tailoring with feminine silhouette.',
     price: 2395,
     currency: 'USD',
-    images: [
-      '/images/products/tuxedo-dress-1.jpg',
-      '/images/products/tuxedo-dress-2.jpg',
-      '/images/products/tuxedo-dress-3.jpg'
-    ],
+    images: getProductImages('tuxedo-dress'),
     category: 'dresses',
     tags: ['tuxedo', 'evening', 'black', 'tailored'],
     status: 'in-stock',
@@ -246,16 +220,12 @@ export const products: Product[] = [
     dateAdded: '2023-08-15'
   },
   {
-    id: 'p010',
+    id: 'evening-sandals',
     name: 'The Sapphire Evening Sandals',
     description: 'Striking royal blue satin evening sandals with crystal embellishments. Designed to be as comfortable as they are beautiful.',
     price: 1250,
     currency: 'USD',
-    images: [
-      '/images/products/evening-sandals-1.jpg',
-      '/images/products/evening-sandals-2.jpg',
-      '/images/products/evening-sandals-3.jpg'
-    ],
+    images: getProductImages('evening-sandals'),
     category: 'footwear',
     tags: ['evening', 'sandals', 'blue', 'embellished'],
     status: 'coming-soon',
@@ -273,16 +243,12 @@ export const products: Product[] = [
     dateAdded: '2023-12-01'
   },
   {
-    id: 'p011',
+    id: 'velvet-suit',
     name: 'The Bordeaux Velvet Suit',
     description: 'A sumptuous velvet suit in rich bordeaux, perfect for making a statement at winter events and festive occasions.',
     price: 3450,
     currency: 'USD',
-    images: [
-      '/images/products/velvet-suit-1.jpg',
-      '/images/products/velvet-suit-2.jpg',
-      '/images/products/velvet-suit-3.jpg'
-    ],
+    images: getProductImages('velvet-suit'),
     category: 'suits',
     tags: ['velvet', 'bordeaux', 'winter', 'statement'],
     status: 'in-stock',
@@ -300,16 +266,12 @@ export const products: Product[] = [
     dateAdded: '2023-10-10'
   },
   {
-    id: 'p012',
+    id: 'tennis-bracelet',
     name: 'The Diamond Tennis Bracelet',
     description: 'A classic diamond tennis bracelet elevated with perfectly matched round brilliant diamonds. Effortless luxury for everyday or special occasions.',
     price: 12500,
     currency: 'USD',
-    images: [
-      '/images/products/tennis-bracelet-1.jpg',
-      '/images/products/tennis-bracelet-2.jpg',
-      '/images/products/tennis-bracelet-3.jpg'
-    ],
+    images: getProductImages('tennis-bracelet'),
     category: 'jewelry',
     tags: ['diamond', 'bracelet', 'classic', 'statement'],
     status: 'low-stock',

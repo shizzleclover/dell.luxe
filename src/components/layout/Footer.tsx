@@ -11,7 +11,7 @@ const Footer: React.FC = () => {
           {/* Brand column */}
           <div>
             <Link to="/" className="text-2xl font-heading font-medium tracking-wider text-luxury-charcoal dark:text-luxury-ivory">
-              LUXE ATTIRE
+              Dell.Luxe
             </Link>
             <p className="mt-4 text-gray-600 dark:text-gray-300">
               Exquisite luxury fashion for those who appreciate timeless elegance, superior craftsmanship, and uncompromising quality.
@@ -91,8 +91,8 @@ const Footer: React.FC = () => {
                 </a>
               </p>
               <p className="text-gray-600 dark:text-gray-300">
-                <a href="mailto:contact@luxeattire.com" className="hover:text-luxury-gold dark:hover:text-luxury-gold transition-colors">
-                  contact@luxeattire.com
+                <a href="mailto:contact@dell-luxe.com" className="hover:text-luxury-gold dark:hover:text-luxury-gold transition-colors">
+                  contact@dell-luxe.com
                 </a>
               </p>
             </address>
@@ -119,7 +119,7 @@ const Footer: React.FC = () => {
             </a>
           </div>
           <p className="text-gray-500 dark:text-gray-400">
-            &copy; {currentYear} Luxe Attire. All rights reserved.
+            &copy; {currentYear} Dell.Luxe. All rights reserved.
           </p>
         </div>
       </div>

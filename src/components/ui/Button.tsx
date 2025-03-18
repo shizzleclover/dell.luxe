@@ -15,7 +15,7 @@ type ButtonProps = {
   onClick?: () => void;
 };
 
-export const Button: React.FC<ButtonProps> = ({
+const Button: React.FC<ButtonProps> = ({
   variant = 'primary',
   size = 'md',
   asLink = false,
@@ -78,4 +78,6 @@ export const Button: React.FC<ButtonProps> = ({
       {children}
     </motion.button>
   );
-}; 
+};
+
+export default Button; 
