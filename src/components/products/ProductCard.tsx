@@ -104,7 +104,7 @@ export const ProductCard: React.FC<ProductCardProps> = ({
   };
 
   // Fallback image if product images are not available
-  const productImage = images.length > 0 ? images[0] : getPlaceholderImage(`category-${product.category}`);
+  const productImage = images.length > 0 ? images[0] : getPlaceholderImage(`category-#{product.category}`);
   
   const statusBadges = () => {
     return (
@@ -147,7 +147,7 @@ export const ProductCard: React.FC<ProductCardProps> = ({
         viewport={{ once: true }}
       >
         {/* Card image */}
-        <Link to={`/products/${id}`} className="block relative aspect-square overflow-hidden bg-gray-100 dark:bg-gray-800 mb-4 group">
+        <Link to={`/products/#{id}`} className="block relative aspect-square overflow-hidden bg-gray-100 dark:bg-gray-800 mb-4 group">
           {images && images.length > 0 ? (
             <img
               src={getPlaceholderImage(firstImageKey)}
@@ -160,7 +160,7 @@ export const ProductCard: React.FC<ProductCardProps> = ({
               )}
               loading={priority ? "eager" : "lazy"}
               onError={(e) => {
-                console.error(`Failed to load image for ${id}:`, firstImageKey);
+                console.error(`Failed to load image for #{id}:`, firstImageKey);
                 // Set fallback image on error
                 e.currentTarget.src = 'https://images.unsplash.com/photo-1590664863762-bbf2banefea8?w=600&q=80&auto=format&fit=crop';
               }}
@@ -179,7 +179,7 @@ export const ProductCard: React.FC<ProductCardProps> = ({
             <div className="text-sm text-gray-500 dark:text-gray-400 mb-1">
               {seller}
             </div>
-            <Link to={`/products/${id}`} className="block mb-2">
+            <Link to={`/products/#{id}`} className="block mb-2">
               <h3 className="font-heading font-medium text-lg text-luxury-charcoal dark:text-luxury-ivory hover:text-luxury-gold dark:hover:text-luxury-gold transition-colors">
                 {name}
               </h3>
@@ -303,14 +303,14 @@ export const ProductCard: React.FC<ProductCardProps> = ({
                     {images && images.slice(0, 4).map((image, index) => (
                       <button
                         key={index}
-                        className={`aspect-square bg-gray-100 dark:bg-gray-800 rounded ${
+                        className={`aspect-square bg-gray-100 dark:bg-gray-800 rounded #{
                           selectedImageIndex === index ? 'ring-2 ring-luxury-gold' : ''
                         }`}
                         onClick={() => setSelectedImageIndex(index)}
                       >
                         <img
                           src={getPlaceholderImage(image.split('/').pop()?.split('.')[0] || '')}
-                          alt={`${name} ${index + 1}`}
+                          alt={`#{name} #{index + 1}`}
                           className="w-full h-full object-cover"
                           onError={(e) => {
                             e.currentTarget.src = 'https://images.unsplash.com/photo-1590664863762-bbf2banefea8?w=600&q=80&auto=format&fit=crop';
@@ -367,7 +367,7 @@ export const ProductCard: React.FC<ProductCardProps> = ({
                       <span className="text-sm font-medium text-gray-600 dark:text-gray-400 mr-2">
                         Status:
                       </span>
-                      <span className={`text-sm px-2 py-1 rounded ${
+                      <span className={`text-sm px-2 py-1 rounded #{
                         status === 'in-stock' 
                           ? 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200' 
                           : status === 'low-stock'
@@ -424,7 +424,7 @@ export const ProductCard: React.FC<ProductCardProps> = ({
                     </Button>
                     <div className="mt-4">
                       <Link 
-                        to={`/products/${id}`} 
+                        to={`/products/#{id}`} 
                         className="text-center block text-sm text-luxury-gold hover:underline"
                       >
                         View Full Details

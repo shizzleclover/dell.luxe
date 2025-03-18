@@ -11,10 +11,7 @@ const HomePage: React.FC = () => {
 
   return (
     <>
-      <div className="container-luxe py-10 bg-red-100">
-        <h1 className="text-3xl font-bold">Debug Content</h1>
-        <p>If you can see this, the layout is working correctly.</p>
-      </div>
+      
       <Hero />
       <FeaturedProducts />
       <CategoryShowcase />

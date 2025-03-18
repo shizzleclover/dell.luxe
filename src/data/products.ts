@@ -5,7 +5,7 @@ import { getPlaceholderImage } from './images';
 const getProductImages = (productId: string, count: number = 3) => {
   const images = [];
   for (let i = 1; i <= count; i++) {
-    images.push(getPlaceholderImage(`${productId}-${i}`));
+    images.push(getPlaceholderImage(`#{productId}-#{i}`));
   }
   return images;
 };
