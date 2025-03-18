@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import Button from '../components/ui/Button';
-import { orders, customers, revenueData, inventoryStatus, topCategories } from '../data/admin';
+import { orders, customers, inventoryStatus, topCategories } from '../data/admin';
 import { products } from '../data/products';
 
 const AdminDashboardPage: React.FC = () => {
@@ -386,4 +386,4 @@ const AdminDashboardPage: React.FC = () => {
   );
 };
 
-export default AdminDashboardPage; 
+export default AdminDashboardPage;

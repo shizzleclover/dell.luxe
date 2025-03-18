@@ -29,7 +29,6 @@ export const ProductCard: React.FC<ProductCardProps> = ({
   console.log('Product Card Rendering:', product.id, product);
   
   const { 
-    id, 
     name, 
     description, 
     price, 
@@ -37,8 +36,6 @@ export const ProductCard: React.FC<ProductCardProps> = ({
     currency, 
     images, 
     status, 
-    new: isNew, 
-    featured 
   } = product;
 
   // Extract first image name (without path and extension)
@@ -103,18 +100,15 @@ export const ProductCard: React.FC<ProductCardProps> = ({
     if (quantity > 1) setQuantity(q => q - 1);
   };
 
-  // Fallback image if product images are not available
-  const productImage = images.length > 0 ? images[0] : getPlaceholderImage(`category-#{product.category}`);
-  
   const statusBadges = () => {
     return (
       <div className="absolute top-3 left-3 flex flex-col gap-2">
-        {isNew && (
+        {product.new && (
           <span className="bg-luxury-gold text-white text-xs px-2 py-1 rounded">
             NEW
           </span>
         )}
-        {featured && (
+        {product.featured && (
           <span className="bg-luxury-black text-white text-xs px-2 py-1 rounded">
             FEATURED
           </span>
@@ -439,4 +433,4 @@ export const ProductCard: React.FC<ProductCardProps> = ({
       </AnimatePresence>
     </>
   );
-}; 
+};

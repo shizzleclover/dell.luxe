@@ -1,11 +1,11 @@
 import { Product } from '../types';
-import { getPlaceholderImage } from './images';
+// import { getPlaceholderImage } from './images';
 
-// Helper function to generate images for products based on ID
-const getProductImages = (productId: string, count: number = 3) => {
+// Modified getProductImages function to accept a string id
+const getProductImages = (id: string, count: number = 3) => {
   const images = [];
   for (let i = 1; i <= count; i++) {
-    images.push(getPlaceholderImage(`#{productId}-#{i}`));
+    images.push(`/images/products/${id}-${i}`);
   }
   return images;
 };
@@ -17,7 +17,7 @@ export const products: Product[] = [
     description: 'A stunning floor-length black evening dress with delicate beading and a dramatic silhouette. Perfect for galas and special occasions.',
     price: 2995,
     currency: 'USD',
-    images: getProductImages('obsidian-gown'),
+    images: getProductImages('obsidian-gown', 3),
     category: 'dresses',
     tags: ['evening', 'formal', 'gala', 'beaded'],
     status: 'in-stock',
@@ -40,7 +40,7 @@ export const products: Product[] = [
     description: 'An impeccably tailored cream silk suit perfect for summer soirees and yacht events. Exudes effortless luxury and sophistication.',
     price: 3250,
     currency: 'USD',
-    images: getProductImages('riviera-suit'),
+    images: getProductImages('riviera-suit', 3),
     category: 'suits',
     tags: ['summer', 'tailored', 'silk', 'cream'],
     status: 'in-stock',
@@ -63,7 +63,7 @@ export const products: Product[] = [
     description: 'Exquisite marquise-cut diamond drop earrings set in 18k white gold. A timeless statement piece that captures the light with every movement.',
     price: 9800,
     currency: 'USD',
-    images: getProductImages('marquise-earrings'),
+    images: getProductImages('marquise-earrings', 3),
     category: 'jewelry',
     tags: ['diamond', 'evening', 'heirloom', 'statement'],
     status: 'low-stock',
@@ -87,7 +87,7 @@ export const products: Product[] = [
     price: 4650,
     discountedPrice: 3950,
     currency: 'USD',
-    images: getProductImages('cashmere-coat'),
+    images: getProductImages('cashmere-coat', 3),
     category: 'coats',
     tags: ['winter', 'cashmere', 'camel', 'oversized'],
     status: 'in-stock',
@@ -110,7 +110,7 @@ export const products: Product[] = [
     description: 'A sophisticated burgundy velvet clutch with antique gold frame. Adds a touch of vintage glamour to any evening ensemble.',
     price: 1450,
     currency: 'USD',
-    images: getProductImages('velvet-clutch'),
+    images: getProductImages('velvet-clutch', 3),
     category: 'accessories',
     tags: ['evening', 'velvet', 'vintage', 'burgundy'],
     status: 'in-stock',
@@ -133,7 +133,7 @@ export const products: Product[] = [
     description: 'Meticulously crafted black leather boots with a subtle block heel. Combines Parisian elegance with everyday comfort.',
     price: 1895,
     currency: 'USD',
-    images: getProductImages('leather-boots'),
+    images: getProductImages('leather-boots', 3),
     category: 'footwear',
     tags: ['leather', 'boots', 'black', 'block-heel'],
     status: 'out-of-stock',
@@ -156,7 +156,7 @@ export const products: Product[] = [
     description: 'A sculptural white column dress with asymmetrical neckline. Architectural minimalism meets ethereal elegance.',
     price: 2750,
     currency: 'USD',
-    images: getProductImages('column-dress'),
+    images: getProductImages('column-dress', 3),
     category: 'dresses',
     tags: ['minimalist', 'evening', 'white', 'architectural'],
     status: 'in-stock',
@@ -179,7 +179,7 @@ export const products: Product[] = [
     description: 'A luxurious oversized silk scarf in rich emerald with hand-rolled edges. Versatile enough to be worn multiple ways.',
     price: 495,
     currency: 'USD',
-    images: getProductImages('silk-scarf'),
+    images: getProductImages('silk-scarf', 3),
     category: 'accessories',
     tags: ['silk', 'emerald', 'scarf', 'hand-rolled'],
     status: 'in-stock',
@@ -202,7 +202,7 @@ export const products: Product[] = [
     description: 'A sophisticated black dress with tuxedo-inspired detailing. Blends masculine tailoring with feminine silhouette.',
     price: 2395,
     currency: 'USD',
-    images: getProductImages('tuxedo-dress'),
+    images: getProductImages('tuxedo-dress', 3),
     category: 'dresses',
     tags: ['tuxedo', 'evening', 'black', 'tailored'],
     status: 'in-stock',
@@ -225,7 +225,7 @@ export const products: Product[] = [
     description: 'Striking royal blue satin evening sandals with crystal embellishments. Designed to be as comfortable as they are beautiful.',
     price: 1250,
     currency: 'USD',
-    images: getProductImages('evening-sandals'),
+    images: getProductImages('evening-sandals', 3),
     category: 'footwear',
     tags: ['evening', 'sandals', 'blue', 'embellished'],
     status: 'coming-soon',
@@ -248,7 +248,7 @@ export const products: Product[] = [
     description: 'A sumptuous velvet suit in rich bordeaux, perfect for making a statement at winter events and festive occasions.',
     price: 3450,
     currency: 'USD',
-    images: getProductImages('velvet-suit'),
+    images: getProductImages('velvet-suit', 3),
     category: 'suits',
     tags: ['velvet', 'bordeaux', 'winter', 'statement'],
     status: 'in-stock',
@@ -271,7 +271,7 @@ export const products: Product[] = [
     description: 'A classic diamond tennis bracelet elevated with perfectly matched round brilliant diamonds. Effortless luxury for everyday or special occasions.',
     price: 12500,
     currency: 'USD',
-    images: getProductImages('tennis-bracelet'),
+    images: getProductImages('tennis-bracelet', 3),
     category: 'jewelry',
     tags: ['diamond', 'bracelet', 'classic', 'statement'],
     status: 'low-stock',
@@ -308,4 +308,4 @@ export const getProductsByCategory = (category: string): Product[] => {
 
 export const getNewArrivals = (): Product[] => {
   return products.filter(product => product.new);
-}; 
+};

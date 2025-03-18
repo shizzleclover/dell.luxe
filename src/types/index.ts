@@ -52,4 +52,23 @@ export interface CustomerSummary {
   orders: number;
   totalSpent: number;
   currency: string;
-} 
+}
+
+export interface Order {
+  id: string;
+  customer: string;
+  date: string;
+  amount: number;
+  currency: string;
+  status: 'completed' | 'pending' | 'cancelled';
+}
+
+export interface Customer {
+  id: string;
+  name: string;
+  email: string;
+  joinDate: string;
+  orders: number;
+  totalSpent: number;
+  currency: string;
+}

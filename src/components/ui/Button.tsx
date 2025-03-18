@@ -13,6 +13,7 @@ type ButtonProps = {
   disabled?: boolean;
   children: React.ReactNode;
   onClick?: () => void;
+  type?: 'button' | 'submit' | 'reset';  // Add type prop
 };
 
 const Button: React.FC<ButtonProps> = ({
@@ -25,6 +26,7 @@ const Button: React.FC<ButtonProps> = ({
   disabled = false,
   children,
   onClick,
+  type = 'button',  // Default type to 'button'
   ...props
 }) => {
   // Define base classes based on variant and size
@@ -73,6 +75,7 @@ const Button: React.FC<ButtonProps> = ({
       className={baseClasses}
       onClick={disabled ? undefined : onClick}
       disabled={disabled}
+      type={type}  // Add type prop to button
       {...props}
     >
       {children}
@@ -80,4 +83,4 @@ const Button: React.FC<ButtonProps> = ({
   );
 };
 
-export default Button; 
+export default Button;

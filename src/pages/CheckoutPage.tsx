@@ -410,8 +410,9 @@ const CheckoutPage: React.FC = () => {
                   type="submit"
                   fullWidth
                   disabled={isSubmitting}
+                  className="mt-6"
                 >
-                  {isSubmitting ? 'Processing...' : 'Place Order'}
+                  {isSubmitting ? 'Processing...' : 'Complete Purchase'}
                 </Button>
                 
                 <p className="text-sm text-center text-gray-500 mt-4">
@@ -426,4 +427,4 @@ const CheckoutPage: React.FC = () => {
   );
 };
 
-export default CheckoutPage; 
+export default CheckoutPage;

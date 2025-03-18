@@ -10,7 +10,7 @@ interface HeaderProps {
   toggleDarkMode: () => void;
 }
 
-const Header: React.FC<HeaderProps> = ({ darkMode, toggleDarkMode }) => {
+const Header: React.FC<HeaderProps> = ({ darkMode }) => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const { cartCount, toggleCart } = useCart();
@@ -28,6 +28,10 @@ const Header: React.FC<HeaderProps> = ({ darkMode, toggleDarkMode }) => {
   useEffect(() => {
     setIsMobileMenuOpen(false);
   }, [location]);
+
+  useEffect(() => {
+    document.documentElement.classList.toggle('dark', darkMode);
+  }, [darkMode]);
   
   const navItems = [
     { label: 'Home', path: '/' },
@@ -181,4 +185,4 @@ const Header: React.FC<HeaderProps> = ({ darkMode, toggleDarkMode }) => {
   );
 };
 
-export default Header; 
+export default Header;

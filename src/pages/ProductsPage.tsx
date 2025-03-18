@@ -1,10 +1,10 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { motion } from 'framer-motion';
+import { Product } from '../types/index';
 import { ProductCard } from '../components/products/ProductCard';
 import { ProductFilter } from '../components/products/ProductFilter';
-import { getProducts, getProductsByCategory } from '../data/products';
-import { shuffle } from '../utils/array';
+import { getProducts } from '../data/products';
 
 // Mock sellers data - in a real app, this would come from a database
 const sellers = [
@@ -19,43 +19,51 @@ const sellers = [
 
 const ProductsPage: React.FC = () => {
   const [searchParams] = useSearchParams();
-  const category = searchParams.get('category');
-  const featured = searchParams.get('featured') === 'true';
-  const newItems = searchParams.get('new') === 'true';
-  
-  // Get initial products based on URL parameters
-  let products = [];
-  try {
-    products = getProducts().filter(product => {
-      if (category && product.category !== category) return false;
-      if (featured && !product.featured) return false;
-      if (newItems && !product.new) return false;
-      return true;
-    });
-    console.log('Initial products:', products);
-  } catch (error) {
-    console.error('Error loading products:', error);
-  }
-  
-  const [filteredProducts, setFilteredProducts] = useState(products);
-  const [selectedCategories, setSelectedCategories] = useState<string[]>(category ? [category] : []);
+  const [products, setProducts] = useState<Product[]>([]);
+  const [filteredProducts, setFilteredProducts] = useState<Product[]>([]);
+  const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
   const [priceRange, setPriceRange] = useState<[number, number]>([0, 10000]);
   const [availabilityFilter, setAvailabilityFilter] = useState<string[]>([]);
   const [sortOrder, setSortOrder] = useState<string>('featured');
-  
-  // Assign random sellers to products (for demonstration)
-  const assignedSellers = filteredProducts.map(product => {
-    return {
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+
+  // Initialize filters from URL params
+  useEffect(() => {
+    const category = searchParams.get('category');
+    const featured = searchParams.get('featured') === 'true';
+    const newItems = searchParams.get('new') === 'true';
+
+    if (category) {
+      setSelectedCategories([category]);
+    }
+    
+    // Load initial products
+    try {
+      const initialProducts = getProducts().filter(product => {
+        if (category && product.category !== category) return false;
+        if (featured && !product.featured) return false;
+        if (newItems && !product.new) return false;
+        return true;
+      });
+      setProducts(initialProducts);
+      setFilteredProducts(initialProducts);
+      setIsLoading(false);
+    } catch (error) {
+      setError('Failed to load products');
+      setIsLoading(false);
+      console.error('Error loading products:', error);
+    }
+  }, [searchParams]);
+
+  // Memoize assigned sellers to prevent unnecessary recalculations
+  const assignedSellers = useMemo(() => {
+    return filteredProducts.map(product => ({
       ...product,
       seller: sellers[Math.floor(Math.random() * sellers.length)]
-    };
-  });
-  
-  // Scroll to top when component mounts
-  useEffect(() => {
-    window.scrollTo(0, 0);
-  }, []);
-  
+    }));
+  }, [filteredProducts]);
+
   // Filter products when filter options change
   const handleFilterChange = (
     categories: string[],
@@ -63,44 +71,38 @@ const ProductsPage: React.FC = () => {
     availability: string[],
     sort: string
   ) => {
-    let filtered = products;
+    let filtered = [...products];
     
-    // Filter by categories
+    // Apply filters
     if (categories.length > 0) {
       filtered = filtered.filter(product => categories.includes(product.category));
     }
     
-    // Filter by price
     filtered = filtered.filter(
-      product => (product.discountedPrice || product.price) >= price[0] && 
-                (product.discountedPrice || product.price) <= price[1]
+      product => {
+        const productPrice = product.discountedPrice || product.price;
+        return productPrice >= price[0] && productPrice <= price[1];
+      }
     );
     
-    // Filter by availability
     if (availability.length > 0) {
-      filtered = filtered.filter(product => {
-        if (availability.includes('in-stock') && product.status === 'in-stock') return true;
-        if (availability.includes('low-stock') && product.status === 'low-stock') return true;
-        return false;
-      });
+      filtered = filtered.filter(product => availability.includes(product.status));
     }
     
     // Sort products
-    switch (sort) {
-      case 'price-low':
-        filtered.sort((a, b) => (a.discountedPrice || a.price) - (b.discountedPrice || b.price));
-        break;
-      case 'price-high':
-        filtered.sort((a, b) => (b.discountedPrice || b.price) - (a.discountedPrice || a.price));
-        break;
-      case 'newest':
-        filtered.sort((a, b) => a.new === b.new ? 0 : a.new ? -1 : 1);
-        break;
-      case 'featured':
-      default:
-        filtered.sort((a, b) => a.featured === b.featured ? 0 : a.featured ? -1 : 1);
-        break;
-    }
+    filtered.sort((a, b) => {
+      switch (sort) {
+        case 'price-low':
+          return (a.discountedPrice || a.price) - (b.discountedPrice || b.price);
+        case 'price-high':
+          return (b.discountedPrice || b.price) - (a.discountedPrice || a.price);
+        case 'newest':
+          return Number(b.new) - Number(a.new);
+        case 'featured':
+        default:
+          return Number(b.featured) - Number(a.featured);
+      }
+    });
     
     setFilteredProducts(filtered);
     setSelectedCategories(categories);
@@ -108,6 +110,19 @@ const ProductsPage: React.FC = () => {
     setAvailabilityFilter(availability);
     setSortOrder(sort);
   };
+
+  // Scroll to top only on mount
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+
+  if (isLoading) {
+    return <div className="pt-28 pb-16 text-center">Loading...</div>;
+  }
+
+  if (error) {
+    return <div className="pt-28 pb-16 text-center text-red-500">{error}</div>;
+  }
 
   return (
     <div className="pt-28 pb-16">
@@ -183,4 +198,4 @@ const ProductsPage: React.FC = () => {
   );
 };
 
-export default ProductsPage; 
+export default ProductsPage;

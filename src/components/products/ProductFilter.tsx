@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { FilterOptions, ProductCategory, ProductStatus } from '../../types';
 import { cn } from '../../utils/cn';
 
 // Available categories for the marketplace
@@ -257,4 +256,4 @@ export const ProductFilter: React.FC<ProductFilterProps> = ({
       </AnimatePresence>
     </div>
   );
-}; 
+};

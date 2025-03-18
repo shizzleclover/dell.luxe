@@ -1,4 +1,5 @@
-import { OrderSummary, CustomerSummary } from '../types';
+// Remove unused import
+// import type { Order, Customer } from '../types';
 
 // Mock data for admin dashboard
 
@@ -154,4 +155,4 @@ export const topCategories: CategorySales[] = [
   { category: 'Jewelry', percentage: 28 },
   { category: 'Suits', percentage: 18 },
   { category: 'Accessories', percentage: 16 }
-]; 
+];
